@@ -403,6 +403,7 @@ nav a:hover {
     align-items: center;
     position: relative;
     z-index: 1;
+    margin-left: 36px;
     opacity: 0;
     animation: fadeIn 1s ease 1s forwards;
 }
@@ -414,6 +415,7 @@ nav a:hover {
     display: flex;
     align-items: center;
     justify-content: center;
+    transform: translateX(26px);
 }
 
 .photo-ring {
@@ -780,6 +782,7 @@ section {
 }
 
 .proj-thumb {
+    display: block;
     height: 185px;
     overflow: hidden;
     position: relative;
@@ -801,6 +804,33 @@ section {
     position: absolute;
     inset: 0;
     background: linear-gradient(to bottom, transparent 40%, rgba(8,12,16,.85));
+    pointer-events: none;
+}
+
+.proj-gallery {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 6px;
+    padding: 8px 8px 0;
+}
+
+.proj-gallery a {
+    display: block;
+    height: 76px;
+    overflow: hidden;
+    border-radius: 6px;
+}
+
+.proj-gallery img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform .3s ease;
+}
+
+.proj-gallery a:hover img {
+    transform: scale(1.05);
 }
 
 .proj-body {
@@ -846,6 +876,29 @@ section {
     padding: 4px 9px;
     border-radius: 4px;
     text-transform: uppercase;
+}
+
+.proj-doc-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 16px;
+}
+
+.proj-doc-links a {
+    font-size: .65rem;
+    font-weight: 600;
+    color: var(--teal);
+    text-decoration: none;
+    border: 1px solid rgba(212,175,109,.3);
+    border-radius: 6px;
+    padding: 7px 10px;
+    transition: background .2s, border-color .2s;
+}
+
+.proj-doc-links a:hover {
+    background: rgba(212,175,109,.1);
+    border-color: var(--teal);
 }
 
 /* ── Certifications ── */
@@ -1214,26 +1267,71 @@ footer {
 /* ── Responsive ── */
 @media (max-width: 1100px) {
     .hero {
-        flex-direction: column;
-        gap: 60px;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(260px, 340px);
+        align-content: center;
+        gap: 24px clamp(24px, 5vw, 60px);
+    }
+
+    .hero-content {
+        display: contents;
+    }
+
+    .hero-intro {
+        grid-column: 1;
+        grid-row: 1;
+        position: relative;
+        z-index: 1;
+    }
+
+    .hero-role, .hero-desc, .hero-actions, .hero-stats {
+        grid-column: 1 / -1;
     }
 
     .hero-visual {
-        order: -1;
+        grid-column: 2;
+        grid-row: 1;
+        margin-left: 0;
+        justify-self: center;
+        align-self: center;
+    }
+
+    .photo-frame {
+        transform: none;
     }
 }
 
 @media (max-width: 900px) {
     nav {
+        flex-wrap: wrap;
+        row-gap: 12px;
         padding: 14px 20px;
     }
 
     nav ul {
+        order: 3;
+        flex: 0 0 100%;
+        justify-content: space-between;
+        gap: 20px;
+        overflow-x: auto;
+        padding-bottom: 4px;
+        scrollbar-width: none;
+    }
+
+    nav ul::-webkit-scrollbar {
         display: none;
+    }
+
+    nav li {
+        flex: 0 0 auto;
     }
 
     section, .hero, .about, .platforms {
         padding: 80px 22px;
+    }
+
+    .hero {
+        padding-top: 132px;
     }
 
     .about-inner, .contact-inner {
@@ -1241,19 +1339,15 @@ footer {
         gap: 48px;
     }
 
-    .skills-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .portfolio-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .certs-grid {
-        grid-template-columns: 1fr;
+    .skills-grid, .portfolio-grid, .certs-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
     .platforms-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .form-row {
         grid-template-columns: 1fr 1fr;
     }
 
@@ -1291,5 +1385,172 @@ footer {
     .photo-ring-2 {
         width: 248px;
         height: 248px;
+    }
+}
+
+@media (max-width: 600px) {
+    nav {
+        padding: 12px 16px;
+    }
+
+    nav ul {
+        justify-content: flex-start;
+    }
+
+    .nav-cta {
+        padding: 9px 16px;
+    }
+
+    section, .about, .platforms {
+        padding: 64px 18px;
+    }
+
+    .hero {
+        padding: 124px 18px 56px;
+        grid-template-columns: minmax(0, 1fr) minmax(120px, 38%);
+        gap: 20px 12px;
+    }
+
+    .hero-intro {
+        min-width: 0;
+    }
+
+    .hero-badge {
+        max-width: 100%;
+        padding: 8px 12px;
+        font-size: .58rem;
+    }
+
+    .hero h1 {
+        font-size: clamp(30px, 9vw, 48px);
+        overflow-wrap: anywhere;
+    }
+
+    .hero-role, .hero-greeting {
+        overflow-wrap: anywhere;
+    }
+
+    .hero-desc {
+        margin-bottom: 28px;
+    }
+
+    .hero-actions a {
+        flex: 1 1 140px;
+        text-align: center;
+    }
+
+    .hero-stats {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 12px;
+        margin-top: 36px;
+    }
+
+    .hero-stat-num {
+        font-size: 1.5rem;
+    }
+
+    .hero-stat-lbl {
+        font-size: .62rem;
+    }
+
+    .photo-frame {
+        width: 100%;
+        max-width: 160px;
+        height: 180px;
+    }
+
+    .photo-wrap {
+        width: clamp(110px, 30vw, 140px);
+        height: clamp(110px, 30vw, 140px);
+    }
+
+    .photo-ring-1 {
+        width: clamp(120px, 34vw, 155px);
+        height: clamp(120px, 34vw, 155px);
+        top: 12px;
+        left: 5px;
+    }
+
+    .photo-ring-2 {
+        width: clamp(105px, 30vw, 135px);
+        height: clamp(105px, 30vw, 135px);
+        top: 24px;
+        left: 15px;
+    }
+
+    .photo-stat {
+        display: none;
+    }
+
+    .photo-badge {
+        bottom: 4px;
+        padding: 7px 10px;
+        font-size: .5rem;
+    }
+
+    .section-sub {
+        margin-bottom: 36px;
+        line-height: 1.7;
+    }
+
+    .skills-grid, .portfolio-grid, .certs-grid {
+        grid-template-columns: 1fr;
+        gap: 18px;
+        margin-top: 36px;
+    }
+
+    .platforms-grid {
+        gap: 12px;
+        margin-top: 36px;
+    }
+
+    .platform-card {
+        padding: 22px 14px;
+    }
+
+    .about-inner, .contact-inner {
+        gap: 36px;
+    }
+
+    .kpi {
+        padding: 18px 10px;
+    }
+
+    .kpi-num {
+        font-size: 1.7rem;
+    }
+
+    .kpi-lbl {
+        font-size: .42rem;
+        letter-spacing: .08em;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+
+    .contact-detail {
+        overflow-wrap: anywhere;
+        font-size: .76rem;
+    }
+
+    footer {
+        padding: 30px 18px;
+    }
+
+    .footer-links {
+        gap: 16px;
+    }
+}
+
+@media (pointer: coarse) {
+    body, .form-submit {
+        cursor: auto;
+    }
+
+    #cur, #cur-ring {
+        display: none;
     }
 }
